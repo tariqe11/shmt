@@ -1,17 +1,21 @@
-Filed       Type      Status   Rows  Reason
-01-10-2026  SH01      FAILED   0     PdfminerException: Unexpected EOF
-18-08-2026  SH01      FAILED   0     OCR: could not read From date (got '')
-05-08-2026  RP01SH01  FAILED   0     No document available via API
-07-11-2025  SH01      FAILED   0     OCR: could not read From date (got '')
-08-10-2025  SH01      FAILED   0     OCR: could not read From date (got '')
-26-06-2025  RP04SH01  FAILED   0     OCR: could not read From date (got '')
-28-11-2023  SH01      FAILED   0     OCR: could not read From date (got '')
-14-07-2023  SH01      OK       1     
-27-05-2023  SH01      FAILED   0     OCR: could not read From date (got '')
-19-05-2023  SH01      FAILED   0     OCR: could not read From date (got '')
-14-04-2023  SH01      OK       1     
-12-04-2023  SH01      FAILED   0     OCR: could not read From date (got '')
-14-03-2023  SH01      FAILED   0     OCR: could not read From date (got '')
-09-03-2023  SH01      FAILED   0     OCR: could not read From date (got '')
-26-09-2022  SH01      OK       1     
-25-08-2021  SH01      FAILED   0     OCR: could not read From date (got '')
+Okay now I can see where and how it can go wrong, especially on page 55 of Natasha Macartho but I don't understand why it has pulled it twice. The reason is that the very next line of the text is something else but still a duplicate of this has been pulled with the same sort of name. Why has this happened?
+
+That is what I need to work on because when you go page by page and line by line, this is something which can't happen. There have been a lot of reasons behind this sort of behaviour from the prompt. We have analysed almost thousands of filings and we decided on this prompt and it worked across most of the cases pretty well.
+
+On top of that you have a mark on the reconciliation, clearly flagging those as suspicious. You said, "Still the B1 and B3 and deferred or unexplained." What do you mean by that and why were we not able to figure out where it went wrong? On top of that you are correct: it might be some error or problem with the filing as well. There is a high high chance it does happen. The only problem is the volume of the pages as you can see.
+
+Right now you analysed and gave me the output and also the prompt and things, whichever you said would be helpful in identifying these things. No, the reference total: in this case the filing doesn't have any sort of SS01 or anything attached to the filing. In this sort of an extraction there won't be one either. Only the CS. If there is an SS01 associated with it, you can check. If not you can't do anything right now because for Company House, to connect to that, we need to have an API. For that we need to get approval and things. Right now in the production build, we are not using that for this purpose.
+
+Since it is being test run and we want to improve the quality of the output, I fed it the SS01 separately to you. In the real run, after getting permission, we can include this and we can easily change things. Right now if the SS01 is not available in the same filing, we won't.
+
+Second, isn't it possible, without the SS01 in these cases, for just the AI or the model to extract it correctly? How did these duplicates actually come about? I mean how you suspected those duplicates in the first place and how this can be rectified. We may easily say, okay, set some sort of criteria for identifying duplicates but it can go the other way around as well.
+
+For example it might not actually be a duplicate but there's a high chance that it has been marked as a duplicate. This is because this current prompt has been capable of extracting from almost all sorts of filings perfectly. This is a sort of edge case where it has been failing so that's why I'm asking and the one good thing that you mentioned is rows per page. AI, I report a row count for each page so I skipped or double-standarded. Yeah that actually works but I hope, unlike the one good thing that you mentioned, this is this row per page.
+
+For example if something goes wrong, if there has been no SSO one available and this is some sort of a hard filing, still the data has been extracted using vision models and something. On top of that we are looking into some sources to actually verify. Instead of "Okay I have extracted it," but it is still a file, we can actually do this by counting how many rows are in each page and making sure that it is being correctly delivered.
+
+It's just a good thing. After this I will also be able to feed you a snippet with this, very much on H case. I hope this sort of prompt won't be disturbing that extraction. I'm not sure about the other old references and things you will need to code change in.
+
+These are the things I just wanted to confirm from your side because the current prompt has been highly accurate. On top of that it did miss cases like this and I can see in some other filings as well: the same sort of hard-to-read handwritten text that is not able to be reconciled against anything. Say, for example, the rules we set against the number of shareholders, against SS01. If both are not there, it extracts. It is correct and it is almost accurate but these sorts of duplicates are still there.
+
+That is the only edge case we need to handle. Apart from that it has been able to handle the majority of the cases so it is fine. Once we get the API access we can fix this as well. 
